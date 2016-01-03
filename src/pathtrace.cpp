@@ -17,8 +17,8 @@ int tile_f(int x, int size){
 vec3f lookup_scaled_texture(vec3f value, image3f* texture, vec2f uv, bool tile = false) {
     // YOUR CODE GOES HERE ----------------------
     if (texture) {
-        int i = uv.x*texture->width();
-        int j = uv.y*texture->height();
+        int i = int(uv.x*texture->width());
+        int j = int(uv.y*texture->height());
         
         float s = uv.x*texture->width() - i;
         float t = uv.y*texture->height() - j;
@@ -39,7 +39,10 @@ vec3f lookup_scaled_texture(vec3f value, image3f* texture, vec2f uv, bool tile =
             j1 = clamp(j1, 0, texture->height()-1);
         }
         
-        value = texture->at(i, j)*(1-s)*(1-t)+texture->at(i, j1)*(1-s)*t+texture->at(i1, j)*s*(1-t)+texture->at(i1, j1)*s*t;
+        value *= texture->at(i, j) * (1 - s) * (1 - t) +
+        texture->at(i, j1) * (1 - s) * t +
+        texture->at(i1, j) * s * (1 - t) +
+        texture->at(i1, j1) * s * t;
     }
     return value; // placeholder
 }
@@ -358,10 +361,15 @@ int main(int argc, char** argv) {
         scene->image_width = scene->camera->width * scene->image_height / scene->camera->height;
     }
     accelerate(scene);
+    std::chrono::high_resolution_clock::time_point tstart, tend;
+    tstart = std::chrono::high_resolution_clock::now();
     message("rendering %s ... ", scene_filename.c_str());
     auto image = pathtrace(scene,true);
 //    auto image = pathtrace(scene,false);
     write_png(image_filename, image, true);
     delete scene;
     message("done\n");
+    tend = std::chrono::high_resolution_clock::now();
+    auto t = (std::chrono::duration_cast<std::chrono::microseconds>(tend-tstart).count()/1e6);
+    message("It took \nseconds = %f\n", t);
 }
