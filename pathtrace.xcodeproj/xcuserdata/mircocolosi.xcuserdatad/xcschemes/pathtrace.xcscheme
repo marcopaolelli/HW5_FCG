@@ -76,6 +76,10 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "04_light.json"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "08_dof.json"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

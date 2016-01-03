@@ -1,0 +1,25 @@
+{
+    "lookat_camera": { "from": [0,2,5] },
+    "surfaces": [
+        {
+            "frame": { "o": [ 0,0, 1.5] },
+            "material": { "kd": [0,0,0], "ks": [1,1,1], "n": 5000, "microfacet": true }
+        },
+        {
+            "frame": { "o": [ 0,0,-1.5] },
+            "material": { "kd": [0,0,0], "ks": [1,1,1], "n": 500, "microfacet": true }
+        },
+        {
+            "frame": { "o": [ 0,0,-4.5] },
+            "material": { "kd": [0,0,0], "ks": [1,1,1], "n": 50, "microfacet": true }
+        }
+    ],
+    "background": [1,1,1],
+    "background_txt": "models/pisa_latlong.pfm",
+    "image_samples": 32,
+    "path_max_depth": 0,
+    "path_shadows": false,
+    "focal_depth": 3.5,
+    "aperture": 0.1,
+    "quad_aperture": true 
+}
