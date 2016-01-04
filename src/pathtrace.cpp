@@ -303,6 +303,39 @@ void pathtrace(Scene* scene, image3f* image, RngImage* rngs, int offset_row, int
                     auto ray = transform_ray(scene->camera->frame,
                         ray3f(zero3f,normalize(vec3f((u-0.5f)*scene->camera->width,
                                                      (v-0.5f)*scene->camera->height,-1))));
+                    //EXTRA
+                    
+                    if (scene->focal_depth != 0.0) {
+                        
+                        /*
+                        //use directly a computed ray according to a direction
+                         
+                        vec2f mn = rng->next_vec2f()- vec2f(0.5f,0.5f);;
+                        
+                        if(!scene->quad_aperture){
+                            float angle = pif * 2.0f * rng->next_float();
+                            float radius = 0.5f * rng->next_float();
+                            mn = vec2f(cos(angle) * radius, sin(angle)* radius);
+                        }
+                        vec3f aperture_offset = vec3f(mn.x*scene->aperture, mn.y*scene->aperture, 0.0f);
+                        ray3f new_ray = ray3f(zero3f,normalize(vec3f((u-0.5f)*scene->camera->width, (v-0.5f)*scene->camera->height,-1)));
+                        new_ray.e += aperture_offset;
+                        new_ray.d *= scene->focal_depth;
+                        new_ray.d -= aperture_offset;
+                        new_ray.d = normalize(new_ray.d);
+                        
+                        /**/
+                        
+                        //slides way: using two points
+                        vec2f mn = rng->next_vec2f();
+                        vec2f rs = rng->next_vec2f();
+                        
+                        vec3f F = vec3f((0.5-mn.x) * scene->aperture, (0.5-mn.y) * scene->aperture, 0.0f);
+                        vec3f Q = vec3f(((i+0.5f-rs.x)/scene->image_width*scene->camera->width-0.5), ((j+0.5f-rs.y)/scene->image_height*scene->camera->height-0.5), -1)*scene->focal_depth;
+                        ray3f new_ray = ray3f(F, normalize(Q-F));/**/
+                        ray = transform_ray(scene->camera->frame, new_ray);
+                    }
+                    //EXTRA-END
                     // set pixel to the color raytraced with the ray
                     image->at(i,j) += pathtrace_ray(scene,ray,rng,0);
                 }
@@ -371,5 +404,5 @@ int main(int argc, char** argv) {
     message("done\n");
     tend = std::chrono::high_resolution_clock::now();
     auto t = (std::chrono::duration_cast<std::chrono::microseconds>(tend-tstart).count()/1e6);
-    message("It took \nseconds = %f\n", t);
+    message("It took %f seconds\n", t);
 }
