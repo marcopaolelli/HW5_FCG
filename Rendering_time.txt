@@ -1,0 +1,28 @@
+rendering 01_textured.json ... 
+  rendering done           
+done
+It took 0.210165 seconds
+rendering 02_area.json ... 
+  rendering done           
+done
+It took 9.759381 seconds
+rendering 03_env.json ... 
+  rendering done           
+done
+It took 9.101740 seconds
+rendering 04_light.json ... 
+  rendering done           
+done
+It took 3.923073 seconds
+rendering 05_materials.json ... 
+  rendering done           
+done
+It took 18.260793 seconds
+rendering 06_cb_direct.json ... 
+  rendering done           
+done
+It took 40.589517 seconds
+rendering 07_cb_indirect.json ... 
+  rendering done           
+done
+It took 123.354879 seconds

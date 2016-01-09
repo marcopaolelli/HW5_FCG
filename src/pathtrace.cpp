@@ -192,15 +192,19 @@ vec3f pathtrace_ray(Scene* scene, ray3f ray, Rng* rng, int depth) {
         else {
             // generate a 2d random number
             uv = rng->next_vec2f();
+            float rho = surf->radius;
+            float theta = uv.x *2.0f * pif;
+            float phi = uv.y * 2.0f * pif;
             
             // compute light position, normal, area
-            S = transform_point(surf->frame, 2.0f * surf->radius * vec3f((uv.x - 0.5f), (uv.y - 0.5f), 0.0f));
-            Nl = transform_normal(surf->frame, vec3f(0.0f,0.0f,1.0f));
+            vec3f point = rho * vec3f(sin(theta)*sin(phi), sin(theta)*cos(phi), cos(theta));
+            S = transform_point(surf->frame, point);
+            vec3f normal = normalize(point);
+            Nl = transform_normal(surf->frame, normal);
             area = 4 * pif * pow(surf->radius, 2);
             
             // set tex coords as random value got before
-            intersection.texcoord.x = uv.x;
-            intersection.texcoord.y = uv.y;
+            intersection.texcoord = uv;
         }
         // get light emission from material and texture
         vec3f kel = lookup_scaled_texture(surf->mat->ke, surf->mat->ke_txt, uv);

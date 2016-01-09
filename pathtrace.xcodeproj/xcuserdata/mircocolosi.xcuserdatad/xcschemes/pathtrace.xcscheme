@@ -80,6 +80,10 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "08_dof.json"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "09_spherical.json"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
